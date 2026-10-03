@@ -16,7 +16,7 @@ header{padding:22px 20px 22px;text-align:center;border-bottom:1px solid var(--li
 .brand{font-size:38px;letter-spacing:.5px;margin:0;font-weight:700}
 .tagline{margin:7px 0 0;color:var(--muted);font-size:16px;font-style:italic}
 .nestline{width:70px;height:2px;background:var(--accent2);margin:15px auto 0}
-.controls{position:sticky;top:0;z-index:5;padding:15px 18px;background:rgba(251,247,240,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.controls{position:sticky;top:58px;z-index:5;padding:15px 18px;background:rgba(251,247,240,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .controls-inner{max-width:1180px;margin:auto;display:flex;gap:10px;flex-wrap:wrap}
 input,select{font:inherit;border:1px solid #d9cabb;border-radius:10px;padding:11px 13px;background:white;color:var(--ink)}
 input{flex:1;min-width:230px}
@@ -36,6 +36,28 @@ button:hover{background:#654a37}
 .empty{grid-column:1/-1;text-align:center;padding:50px;color:var(--muted)}
 footer{border-top:1px solid var(--line);text-align:center;padding:25px;color:var(--muted);font-size:13px}
 @media(max-width:520px){.brand{font-size:30px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding-left:12px;padding-right:12px}.cover-wrap{height:220px}.title{font-size:15px}.controls-inner{flex-direction:column}input,select{width:100%}}
+
+/* Reading Nest multi-page navigation & sections */
+html{scroll-behavior:smooth;scroll-padding-top:78px}
+.nav{position:sticky;top:0;z-index:20;background:rgba(251,247,240,.97);border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(70,50,35,.05)}
+.nav-inner{max-width:1180px;margin:auto;min-height:58px;padding:8px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.nav-brand{font-weight:700;letter-spacing:.8px;color:var(--ink);text-decoration:none}
+.nav-links{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.nav-links a{color:var(--ink);text-decoration:none;padding:9px 12px;border-radius:9px;font-size:14px}
+.nav-links a:hover{background:#eee4d8}
+.hero{max-width:1180px;margin:0 auto;padding:64px 18px 54px;display:grid;grid-template-columns:1.25fr .75fr;gap:34px;align-items:center}
+.hero h2{font-size:46px;line-height:1.08;margin:0 0 16px}.hero p{font-size:18px;line-height:1.7;color:var(--muted);max-width:680px;margin:0 0 24px}
+.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:12px;color:var(--accent);font-weight:700;margin-bottom:12px}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap}.cta{display:inline-block;text-decoration:none;border-radius:10px;padding:12px 17px;background:var(--accent);color:white}.cta.secondary{background:#eee4d8;color:var(--ink)}
+.hero-card{background:#f1e6d9;border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:0 8px 28px rgba(70,50,35,.08);text-align:center}.hero-card .big{font-size:42px;font-weight:700}.hero-card p{font-size:15px;margin:7px auto 0}
+.section{max-width:1180px;margin:0 auto;padding:58px 18px}.section.alt{max-width:none;background:#f5eee4}.section-inner{max-width:1180px;margin:auto}.section h2{text-align:center;font-size:32px;margin:0 0 12px}.section-lead{text-align:center;color:var(--muted);max-width:700px;margin:0 auto 30px;line-height:1.6}
+.steps,.plans,.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.step,.plan,.contact-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:0 3px 12px rgba(70,50,35,.05)}
+.step .num{font-size:14px;color:var(--accent);font-weight:700}.step h3,.plan h3{margin:8px 0;font-size:20px}.step p,.plan p,.contact-card p{color:var(--muted);line-height:1.6;margin:0}
+.plan{position:relative}.plan.featured{border:2px solid var(--accent2)}.plan .price{font-size:30px;font-weight:700;margin:12px 0 4px}.plan .duration{font-size:13px;color:var(--muted);margin-bottom:15px}.plan ul{padding-left:20px;color:var(--muted);line-height:1.8}.plan .badge{position:absolute;top:15px;right:15px;background:#e5d5c3;padding:5px 9px;border-radius:999px;font-size:11px}
+.note{max-width:800px;margin:24px auto 0;padding:16px 18px;background:#f5eee4;border:1px solid var(--line);border-radius:12px;color:var(--muted);line-height:1.6;text-align:center}
+.contact-grid{grid-template-columns:repeat(2,1fr);max-width:850px;margin:30px auto}.contact-card{text-align:center}.contact-card h3{margin-top:0}.contact-button{display:inline-block;margin-top:14px;text-decoration:none;border-radius:9px;padding:10px 15px;background:var(--accent);color:#fff}
+.catalogue-heading{max-width:1180px;margin:0 auto;padding:48px 18px 8px}.catalogue-heading h2{font-size:32px;margin:0 0 7px}.catalogue-heading p{color:var(--muted);margin:0}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding-top:42px}.hero h2{font-size:36px}.steps,.plans,.contact-grid{grid-template-columns:1fr}.nav-inner{align-items:flex-start;flex-direction:column}.nav-links{justify-content:flex-start}.section{padding:45px 18px}}
 </style>
 </head>
 <body>
@@ -51,7 +73,14 @@ footer{border-top:1px solid var(--line);text-align:center;padding:25px;color:var
   </div>
   <div class="nestline"></div>
 </header>
+<nav class="nav"><div class="nav-inner"><a class="nav-brand" href="#home">READING NEST</a><div class="nav-links"><a href="#home">Home</a><a href="#browse">Browse Books</a><a href="#plans">Plans</a><a href="#contact">Contact Us</a></div></div></nav>
 
+<section id="home" class="hero">
+  <div><div class="eyebrow">A little library, close to home</div><h2>Find your next story and bring it home.</h2><p>Welcome to Reading Nest — a cozy home-based library for readers of every age. Browse our collection, find a book you love, and request it through WhatsApp.</p><div class="hero-actions"><a class="cta" href="#browse">Browse the books</a><a class="cta secondary" href="#plans">View plans</a></div></div>
+  <div class="hero-card"><div class="big">📚</div><strong>Stories for every generation.</strong><p>Curated books for children, teens and adults — all in one neighbourhood collection.</p></div>
+</section>
+<section class="section alt"><div class="section-inner"><h2>How Reading Nest works</h2><p class="section-lead">Simple, friendly and local. Choose a book from the catalogue and send us a request.</p><div class="steps"><div class="step"><div class="num">01</div><h3>Choose</h3><p>Browse the collection and use the search and filters to find your next read.</p></div><div class="step"><div class="num">02</div><h3>Request</h3><p>Tap “Request to book” and send the pre-filled message to Reading Nest on WhatsApp.</p></div><div class="step"><div class="num">03</div><h3>Read & return</h3><p>Collect your book, enjoy your reading time, and return it within the agreed borrowing period.</p></div></div></div></section>
+<section id="browse" class="catalogue-heading"><h2>Browse the collection</h2><p>Search by title or author, or filter by genre, author and availability.</p></section>
 <section class="controls">
   <div class="controls-inner">
     <input id="search" type="search" placeholder="Search by book title or author…">
@@ -67,6 +96,13 @@ footer{border-top:1px solid var(--line);text-align:center;padding:25px;color:var
 
 <div class="summary" id="summary"></div>
 <main class="grid" id="grid"></main>
+
+<section id="plans" class="section alt"><div class="section-inner"><h2>Reading Nest Plans</h2><p class="section-lead">Choose the borrowing option that fits your reading routine.</p><div class="plans">
+<div class="plan featured"><span class="badge">Popular</span><h3>Nestling</h3><div class="price">₹199</div><div class="duration">21 days</div><ul><li>2 books at a time</li><li>21-day borrowing period</li><li>Unlimited exchanges</li><li>Access to the collection</li></ul></div>
+<div class="plan"><h3>Bookworm</h3><div class="price">₹349</div><div class="duration">21 days</div><ul><li>4 books at a time</li><li>21-day borrowing period</li><li>Unlimited exchanges</li><li>Access to the collection</li></ul></div>
+<div class="plan"><h3>Family Nest</h3><div class="price">₹499</div><div class="duration">21 days</div><ul><li>6 books at a time</li><li>21-day borrowing period</li><li>Unlimited exchanges</li><li>Access to the collection</li></ul></div>
+</div><div class="note"><strong>Borrowing deposit:</strong> A one-time refundable ₹500 security deposit applies to membership borrowing. Casual reading is also available at ₹50 per book for 14 days, with a refundable ₹500 deposit.</div></div></section>
+<section id="contact" class="section"><div class="section-inner"><h2>Contact Us</h2><p class="section-lead">Have a question, want to join, or need help choosing a book? We’d love to hear from you.</p><div class="contact-grid"><div class="contact-card"><h3>📱 WhatsApp</h3><p>Send us a message for book requests, membership questions or general enquiries.</p><a class="contact-button" href="https://wa.me/919840888568" target="_blank">Chat on WhatsApp</a></div><div class="contact-card"><h3>📚 Book requests</h3><p>Find a book in the catalogue and use its “Request to book” button to send us the title automatically.</p><a class="contact-button" href="#browse">Browse books</a></div></div></div></section>
 
 <footer>Reading Nest · Stories for every generation.</footer>
 
