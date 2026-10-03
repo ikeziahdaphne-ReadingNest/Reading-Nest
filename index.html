@@ -12,7 +12,7 @@
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Georgia,"Times New Roman",serif;background:var(--paper);color:var(--ink)}
-header{padding:28px 20px 22px;text-align:center;border-bottom:1px solid var(--line);background:#f5eee4}
+header{padding:22px 20px 22px;text-align:center;border-bottom:1px solid var(--line);background:#f5eee4}.brandmark{width:82px;height:70px;display:block;margin:0 auto 5px}.brand-lockup{display:flex;align-items:center;justify-content:center;gap:12px}.brand-lockup .brandmark{margin:0}.brand-copy{text-align:left}
 .brand{font-size:38px;letter-spacing:.5px;margin:0;font-weight:700}
 .tagline{margin:7px 0 0;color:var(--muted);font-size:16px;font-style:italic}
 .nestline{width:70px;height:2px;background:var(--accent2);margin:15px auto 0}
@@ -20,7 +20,7 @@ header{padding:28px 20px 22px;text-align:center;border-bottom:1px solid var(--li
 .controls-inner{max-width:1180px;margin:auto;display:flex;gap:10px;flex-wrap:wrap}
 input,select{font:inherit;border:1px solid #d9cabb;border-radius:10px;padding:11px 13px;background:white;color:var(--ink)}
 input{flex:1;min-width:230px}
-select{min-width:160px}
+select{min-width:160px;flex:1}
 .summary{max-width:1180px;margin:20px auto 8px;padding:0 18px;color:var(--muted);font-size:14px}
 .grid{max-width:1180px;margin:0 auto;padding:10px 18px 45px;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:22px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:15px;overflow:hidden;box-shadow:0 3px 12px rgba(70,50,35,.06);display:flex;flex-direction:column}
@@ -40,16 +40,25 @@ footer{border-top:1px solid var(--line);text-align:center;padding:25px;color:var
 </head>
 <body>
 <header>
-  <h1 class="brand">READING NEST</h1>
-  <div class="tagline">Stories for every generation.</div>
+  <div class="brand-lockup">
+  <a href="index.html" class="logo-link">
+  <img src="logo/Reading Nest logo.png" alt="Reading Nest Logo" class="site-logo" width="125" height="125">
+  </a>
+    <div class="brand-copy">
+      <h1 class="brand">READING NEST</h1>
+      <div class="tagline">Stories for every generation.</div>
+    </div>
+  </div>
   <div class="nestline"></div>
 </header>
 
 <section class="controls">
   <div class="controls-inner">
     <input id="search" type="search" placeholder="Search by book title or author…">
+    <select id="genre"><option value="all">All genres</option></select>
+    <select id="author"><option value="all">All authors</option></select>
     <select id="availability">
-      <option value="all">All books</option>
+      <option value="all">All availability</option>
       <option value="available">Available</option>
       <option value="requested">Requested</option>
     </select>
@@ -82,14 +91,38 @@ function requestBook(id) {
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, "_blank");
 }
 
+// The uploaded catalogue contains titles/authors but no genre column.
+ // These broad categories are inferred from title keywords; review/edit as needed.
+function getGenre(book) {
+  const t = book.title.toLowerCase();
+  if (/disney|princess|fairy|toddler|year old|storybook|bible|noddy|dinosaur|children|little one|little princess|noddy|peekaboo|lift the flap|readalong|rhymes|santa|winnie|curious george|frozen|moana|aladdin|cinderella|snow white|toy story|jungle book|cars 2/.test(t)) return "Children's books";
+  if (/sapiens|truth|history|war|wuhan|gandhi|mgr| Auschwitz|auschwitz|berlin|world|habits|how to|think like|self-preservation|hygge|origami|games|thesaurus|continents|animals|time|prayers|questions/.test(t)) return "Non-fiction";
+  if (/mystery|silent patient|da vinci|nowhere man|private|zero day|in the woods|killer|afghan|jackdaws|hammer of eden|whiteout|fall of giants|labyrinth|godfather|thief|riot/.test(t)) return "Mystery & thriller";
+  if (/love|romance|wedding|bridesmaid|shopaholic|crush|girlfriend|marriage|heart|kiss|afterlife|paris|chocolate|summer|secrets|polly|jemima|bookshop|bookshop|bookshop/.test(t)) return "Romance & contemporary";
+  if (/jane eyre|emma|rebecca|gatsby|paradise lost|three men in a boat|idiot|craw dads|kafka|circe|game of thrones|green mile|nightingale|birdsong|snow child|agincourt|world without end/.test(t)) return "Literary & classics";
+  return "Fiction";
+}
+function populateFilters() {
+  const genres = [...new Set(BOOKS.map(getGenre))].sort();
+  const authors = [...new Set(BOOKS.map(b => b.author).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+  const genreSelect = document.getElementById("genre");
+  const authorSelect = document.getElementById("author");
+  genres.forEach(g => genreSelect.add(new Option(g,g)));
+  authors.forEach(a => authorSelect.add(new Option(a,a)));
+}
+
 function render() {
   const q = document.getElementById("search").value.trim().toLowerCase();
   const filter = document.getElementById("availability").value;
+  const genre = document.getElementById("genre").value;
+  const author = document.getElementById("author").value;
   const filtered = BOOKS.filter(b => {
     const matchesText = !q || b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q);
     const st = currentStatus(b).toLowerCase();
     const matchesFilter = filter === "all" || (filter === "available" && st === "available") || (filter === "requested" && st === "requested");
-    return matchesText && matchesFilter;
+    const matchesGenre = genre === "all" || getGenre(b) === genre;
+    const matchesAuthor = author === "all" || b.author === author;
+    return matchesText && matchesFilter && matchesGenre && matchesAuthor;
   });
 
   document.getElementById("summary").textContent = `Showing ${filtered.length} of ${BOOKS.length} books`;
@@ -118,6 +151,9 @@ function render() {
 
 document.getElementById("search").addEventListener("input", render);
 document.getElementById("availability").addEventListener("change", render);
+document.getElementById("genre").addEventListener("change", render);
+document.getElementById("author").addEventListener("change", render);
+populateFilters();
 render();
 </script>
 </body>
